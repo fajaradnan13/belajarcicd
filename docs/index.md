@@ -8,3 +8,4 @@ Kita akan membuat pipeline yang melakukan:
 3. Deploy secara otomatis ke GitHub Pages (CD)
 
 Dan ini adalah perubahan pada tugas lab 2
+Website ini di-deploy otomatis oleh GitHub Actions!
