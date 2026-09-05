@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'docs/**' # Hanya terpicu jika ada file di dalam folder docs/ yang berubah
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:

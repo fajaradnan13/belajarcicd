@@ -6,3 +6,5 @@ Kita akan membuat pipeline yang melakukan:
 1. Linting dan Testing (CI)
 2. Build dokumentasi statis HTML
 3. Deploy secara otomatis ke GitHub Pages (CD)
+
+Dan ini adalah perubahan pada tugas lab 2
