@@ -86,3 +86,79 @@ jobs:
 ```
 
 *(Panduan ini akan terus diperbarui seiring berjalannya lab kita!)*
+
+---
+
+## 🚦 Modul 2: Mengontrol Trigger Workflow
+
+Kita bisa membatasi kapan workflow berjalan menggunakan opsi tambahan di bawah `on:`.
+
+Contoh jika kita hanya ingin trigger terpicu saat ada perubahan di folder `docs/`:
+```yaml
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**' # Filter spesifik ke dalam folder docs
+```
+Jika kita mengedit file di luar folder `docs` (misalnya file `README.md` di luar), workflow tidak akan dijalankan. Ini sangat menghemat _resource_ CI/CD.
+
+---
+
+## 🏗️ Modul 4 & 6: Real CI/CD (Membuat & Menerbitkan Web)
+
+Tahap sesungguhnya dari CI/CD:
+1. **CI (Continuous Integration):** Menjalankan pengujian (build) otomatis.
+2. **CD (Continuous Deployment):** Jika pengujian sukses, hasilnya otomatis dideploy/dipublikasikan ke server (dalam hal ini GitHub Pages).
+
+**Contoh File:** `.github/workflows/ci-cd.yml`
+
+```yaml
+name: CI/CD Web Dokumentasi
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+
+# Izin wajib agar aksi ini bisa membuat branch baru untuk deployment
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      # Tahap CI
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+        
+      - name: Test Build (CI)
+        run: mkdocs build --strict
+        
+      # Tahap CD
+      - name: Deploy ke GitHub Pages (CD)
+        run: mkdocs gh-deploy --force
+```
+
+### Mengaktifkan GitHub Pages (Satu Kali Setup)
+Setelah *workflow* CD berhasil berjalan, GitHub otomatis membuat branch baru bernama `gh-pages` secara rahasia. Agar bisa diakses menjadi website:
+1. Pergi ke **Settings** repository.
+2. Pilih menu **Pages** di sebelah kiri.
+3. Di bagian "Build and deployment", pastikan Source diatur ke **Deploy from a branch**.
+4. Pilih branch **`gh-pages`** lalu klik **Save**.
+5. Website Anda akan aktif dalam 1-2 menit di URL: `https://<username>.github.io/<nama-repo>/`
+
+*(Panduan ini akan terus diperbarui seiring berjalannya lab kita!)*

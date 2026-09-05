@@ -1,0 +1,36 @@
+name: CI/CD Web Dokumentasi
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "mkdocs.yml" # Terpicu jika konten atau konfigurasi web diubah
+
+# Perizinan (Permissions) khusus agar GitHub Actions punya hak untuk push (deploy) ke branch GitHub Pages
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Tahap CI (Continuous Integration)
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Test Build (CI)
+        run: mkdocs build --strict # Jika ada error di penulisan dokumen, workflow akan gagal di sini
+
+      # Tahap CD (Continuous Deployment)
+      - name: Deploy ke GitHub Pages (CD)
+        run: mkdocs gh-deploy --force # Otomatis mengirim file statis ke branch 'gh-pages'
