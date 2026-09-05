@@ -1,0 +1,20 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  say_hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Tampilkan pesan sapaan
+        run: echo "Halo, selamat datang di CI/CD Lab!"
+        
+      - name: Cek versi Python yang terinstal default
+        run: python --version
