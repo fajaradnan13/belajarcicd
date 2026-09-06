@@ -1,14 +1,11 @@
-name: CI/CD Web Dokumentasi
+name: CI/CD Aplikasi PAUD
 
 on:
   push:
     branches:
       - main
-    paths:
-      - "docs/**"
-      - "mkdocs.yml" # Terpicu jika konten atau konfigurasi web diubah
+  workflow_dispatch:
 
-# Perizinan (Permissions) khusus agar GitHub Actions punya hak untuk push (deploy) ke branch GitHub Pages
 permissions:
   contents: write
 
@@ -18,19 +15,20 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      # Tahap CI (Continuous Integration)
-      - name: Setup Python
-        uses: actions/setup-python@v5
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: "3.x"
-
+          node-version: '20'
+          
       - name: Install Dependencies
-        run: pip install -r requirements.txt
-
-      - name: Test Build (CI)
-        run: mkdocs build --strict # Jika ada error di penulisan dokumen, workflow akan gagal di sini
-
-      # Tahap CD (Continuous Deployment)
-      - name: Deploy ke GitHub Pages (CD)
-        run: mkdocs gh-deploy --force # Otomatis mengirim file statis ke branch 'gh-pages'
+        run: npm install
+        
+      - name: Build Aplikasi (Vite)
+        run: npm run build
+        
+      - name: Deploy ke GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

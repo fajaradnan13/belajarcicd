@@ -1,9 +1,0 @@
-site_name: CI/CD Lab
-site_description: Project untuk belajar CI/CD dengan GitHub Actions
-
-theme:
-  name: readthedocs
-
-nav:
-  - Home: index.md
-  - About: about.md

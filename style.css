@@ -1,0 +1,88 @@
+body {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+  background-color: #f0f8ff;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+}
+
+h1 {
+  color: #ff6b6b;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tool-group {
+  background: #f1f2f6;
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #eccc68;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.1s;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button.active {
+  background-color: #ff7f50;
+  color: white;
+}
+
+#btn-clear {
+  background-color: #ff4757;
+  color: white;
+}
+
+.canvas-container {
+  border: 4px dashed #7bed9f;
+  border-radius: 10px;
+  display: inline-block;
+  overflow: hidden;
+  background-image: radial-gradient(#dcdde1 2px, transparent 2px);
+  background-size: 20px 20px;
+  position: relative;
+  touch-action: none;
+}
+
+canvas {
+  display: block;
+  cursor: crosshair;
+}
+
+#feedback-message {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2ed573;
+  min-height: 30px;
+}

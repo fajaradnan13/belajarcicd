@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar Menulis Abjad</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <h1>Belajar Menulis Huruf 'A'</h1>
+        <div class="toolbar">
+          <div class="tool-group">
+            <label>Alat:</label>
+            <button id="btn-pencil" class="active">Pensil</button>
+            <button id="btn-marker">Spidol</button>
+          </div>
+          <div class="tool-group">
+            <label>Warna:</label>
+            <input type="color" id="color-picker" value="#000000" />
+          </div>
+          <div class="tool-group">
+            <button id="btn-clear">Hapus (Ulangi)</button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="canvas-container">
+          <canvas id="drawing-canvas" width="600" height="400"></canvas>
+        </div>
+        <div id="feedback-message">Ayo mulai menebalkan huruf!</div>
+      </main>
+    </div>
+    
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
