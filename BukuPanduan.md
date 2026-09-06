@@ -161,4 +161,20 @@ Setelah *workflow* CD berhasil berjalan, GitHub otomatis membuat branch baru ber
 4. Pilih branch **`gh-pages`** lalu klik **Save**.
 5. Website Anda akan aktif dalam 1-2 menit di URL: `https://<username>.github.io/<nama-repo>/`
 
+---
+
+## 📦 Modul 5: Artifacts (Menyimpan Hasil Build)
+
+Jika kita ingin mendownload hasil akhir dari CI/CD (misalnya karena jaringan kantor memblokir GitHub Pages, atau kita membuat file `.apk`/`.exe`), kita bisa menyimpannya sebagai **Artifact**.
+
+Tambahkan step ini di bagian paling bawah *workflow*:
+```yaml
+      - name: Simpan Hasil Build sebagai Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nama-file-bebas
+          path: ./folder_hasil_build
+```
+Setelah workflow sukses berjalan, file `.zip` akan muncul di halaman eksekusi workflow tersebut (scroll paling bawah di tab *Actions*).
+
 *(Panduan ini akan terus diperbarui seiring berjalannya lab kita!)*
