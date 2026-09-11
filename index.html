@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Belajar Menulis Abjad - Gamifikasi</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/belajarcicd/assets/index-B2u2JrFr.js"></script>
-  <link rel="stylesheet" crossorigin href="/belajarcicd/assets/index-DROfaz62.css">
+  <script type="module" crossorigin src="/belajarcicd/assets/index-Y-2TiIKk.js"></script>
+  <link rel="stylesheet" crossorigin href="/belajarcicd/assets/index-BK6ZIlOn.css">
 </head>
 <body>
   <div class="game-wrapper">
@@ -30,63 +30,58 @@
       </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="main-layout">
-      <!-- Sidebar Tools -->
-      <aside class="sidebar">
-        <button id="btn-pencil" class="tool-btn btn-yellow active">
-          <div class="tool-icon">🖍️</div>
-          <span>Tulis</span>
-        </button>
-        <!-- Tombol Hapus (Penghapus / Mode Putih) -->
-        <button id="btn-eraser" class="tool-btn btn-purple">
-          <div class="tool-icon">🧽</div>
-          <span>Hapus</span>
-        </button>
-        <button id="btn-clear" class="tool-btn btn-green">
-          <div class="tool-icon">🔄</div>
-          <span>Ulangi</span>
-        </button>
-        
-        <div class="character-mascot">👦</div>
-      </aside>
+    <!-- Audio Background Music (100% Free Copyright / Public Domain) -->
+    <audio id="bgm-audio" loop preload="auto">
+      <source src="./bgm.wav" type="audio/wav">
+    </audio>
 
-      <!-- Center Work Area -->
-      <main class="work-area">
-        <div class="board">
-          <!-- Top Reference Section -->
-          <div class="reference-section">
-            <div class="ref-box box-blue">
-               <div id="ui-svg-container" class="ref-letters">
-                 <!-- Animasi Tracing Huruf A menggunakan SVG -->
-                 <svg class="tracing-animation" viewBox="0 0 150 100" width="100%" height="80px">
-                   <path class="guide-path" d="M 50 10 L 20 90 M 50 10 L 80 90 M 35 60 L 65 60" />
-                   <path class="guide-path" d="M 125 45 A 20 20 0 1 0 125 85 M 125 45 L 125 85" />
-                   <path class="trace-path" d="M 50 10 L 20 90 M 50 10 L 80 90 M 35 60 L 65 60" />
-                   <path class="trace-path-small" d="M 125 45 A 20 20 0 1 0 125 85 M 125 45 L 125 85" />
-                 </svg>
-               </div>
-            </div>
-            <div class="ref-box box-yellow">
-               <div class="ref-illustration">
-                 <span id="ui-emoji" class="avocado-icon">🥑</span>
-                 <h2 id="ui-word" class="word-blue">Alpukat</h2>
-               </div>
-            </div>
+    <!-- Main Content (Layar Penuh untuk Kanvas Menulis) -->
+    <main class="work-area">
+      <!-- Compact Action & Reference Bar -->
+      <div class="top-action-bar">
+        <div class="ref-group">
+          <div class="ref-box box-blue compact-svg-box">
+             <div id="ui-svg-container" class="ref-letters">
+               <!-- SVG Tracing Animasi -->
+             </div>
           </div>
-
-          <!-- Bottom Canvas Section (Buku Tulis) -->
-          <div class="canvas-section">
-            <!-- Canvas ini memiliki background garis buku tulis via CSS -->
-            <canvas id="drawing-canvas" width="800" height="400"></canvas>
+          <div class="ref-box box-yellow compact-word-box">
+             <div class="ref-illustration">
+               <span id="ui-emoji" class="avocado-icon">🥑</span>
+               <h2 id="ui-word" class="word-blue">Alpukat</h2>
+             </div>
           </div>
         </div>
-      </main>
-    </div>
+
+        <!-- Tool Buttons Horizontal di Atas Kanvas -->
+        <div class="tools-group">
+          <button id="btn-pencil" class="tool-btn btn-yellow active">
+            <span class="tool-icon">🖍️</span>
+            <span>Tulis</span>
+          </button>
+          <button id="btn-eraser" class="tool-btn btn-purple">
+            <span class="tool-icon">🧽</span>
+            <span>Hapus</span>
+          </button>
+          <button id="btn-clear" class="tool-btn btn-green">
+            <span class="tool-icon">🔄</span>
+            <span>Ulangi</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Canvas Section (Lebar Maksimal & Bersih) -->
+      <div class="canvas-section">
+        <canvas id="drawing-canvas"></canvas>
+      </div>
+    </main>
 
     <!-- Footer Navigation -->
     <footer class="bottom-footer">
-      <button id="btn-prev" class="btn btn-white back-btn" style="visibility: hidden;">⬅️ Sebelumnya</button>
+      <div class="footer-left">
+        <span class="character-mascot-footer">👦</span>
+        <button id="btn-prev" class="btn btn-white back-btn" style="visibility: hidden;">⬅️ Sebelumnya</button>
+      </div>
       <!-- Feedback Message -->
       <div id="feedback-message">Selamat belajar!</div>
       <button id="btn-next" class="btn btn-blue next-btn">Lanjut ➡️</button>
