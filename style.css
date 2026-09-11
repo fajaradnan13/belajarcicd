@@ -18,11 +18,11 @@ body {
 
 .game-wrapper {
   width: 100%;
-  max-width: 1350px;
+  max-width: 1500px;
   height: 98vh;
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 8px 18px;
   position: relative;
 }
 
@@ -30,7 +30,7 @@ body {
 .top-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   z-index: 10;
 }
 
@@ -38,38 +38,37 @@ body {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  margin-top: -10px;
 }
 
 .title-cloud {
   background: white;
-  padding: 10px 40px;
-  border-radius: 40px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  padding: 6px 28px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   text-align: center;
   position: relative;
 }
 
 .icon-pencil-title {
   position: absolute;
-  left: -20px;
-  top: -10px;
-  font-size: 40px;
+  left: -15px;
+  top: -6px;
+  font-size: 32px;
   transform: rotate(-15deg);
 }
 
 .title-cloud h1 {
   margin: 0;
   color: #1a5276;
-  font-size: 38px;
+  font-size: 26px;
 }
 .highlight-blue {
   color: #3498db;
 }
 .title-cloud p {
-  margin: 5px 0 0 0;
+  margin: 2px 0 0 0;
   color: #2c3e50;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
 }
 
@@ -146,102 +145,135 @@ body {
   box-shadow: 0 5px 0 rgba(0,0,0,0.1);
 }
 
-/* MAIN LAYOUT */
-.main-layout {
-  display: flex;
-  flex-grow: 1;
-  margin-top: 20px;
-  gap: 20px;
-}
-
-/* SIDEBAR */
-.sidebar {
-  width: 120px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  position: relative;
-}
-
-.tool-btn {
-  border: none;
-  border-radius: 20px;
-  padding: 15px 5px;
-  color: white;
-  font-weight: 900;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-  transition: transform 0.1s;
-  opacity: 0.8;
-}
-.tool-btn.active {
-  opacity: 1;
-  transform: scale(1.05);
-  border: 3px solid white;
-}
-.tool-btn:active {
-  transform: translateY(6px) scale(1);
-  box-shadow: none;
-}
-
-.tool-icon {
-  font-size: 32px;
-}
-
-.btn-yellow { background: #f1c40f; box-shadow: 0 6px 0 #d4ac0d; }
-.btn-purple { background: #9b59b6; box-shadow: 0 6px 0 #76448a; }
-.btn-green  { background: #2ecc71; box-shadow: 0 6px 0 #239b56; }
-
-.character-mascot {
-  font-size: 90px;
-  position: absolute;
-  bottom: -20px;
-  left: 10px;
-}
-
-/* WORK AREA (BOARD) */
+/* WORK AREA (BOARD - KANVAS LEBAR MAKSIMAL) */
 .work-area {
   flex-grow: 1;
   background: #fdfefe;
-  border-radius: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
-  border: 6px solid #f2f3f4;
+  border: 4px solid #eef2f5;
+  margin-top: 8px;
+  overflow: hidden;
 }
 
-.reference-section {
+/* TOP ACTION BAR (GABUNGAN PREVIEW DAN TOMBOL ALAT) */
+.top-action-bar {
   display: flex;
-  gap: 20px;
-  height: 120px;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+  margin-bottom: 8px;
+}
+
+.ref-group {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  align-items: center;
 }
 
 .ref-box {
   background: #fff;
-  border-radius: 12px;
-  padding: 10px; /* Kurangi padding agar isinya bisa lebih besar */
-  flex: 1;
+  border-radius: 14px;
+  padding: 4px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.04);
+  height: 100%;
 }
 
-.box-blue {
+.compact-svg-box {
+  width: 170px;
   border: 3px solid #b3d9ff;
   background-color: #f0f8ff;
 }
 
-.box-yellow {
+.compact-svg-box .tracing-animation {
+  width: 100%;
+  height: 54px !important;
+}
+
+.compact-word-box {
   border: 3px solid #ffeeb3;
   background-color: #fffdf0;
+  padding: 4px 16px;
+}
+
+.ref-illustration {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.compact-word-box .avocado-icon {
+  font-size: 38px;
+}
+
+.compact-word-box .word-blue {
+  font-size: 1.6rem;
+  margin: 0;
+  color: #1f618d;
+}
+
+/* TOOLS GROUP (TULIS, HAPUS, ULANGI) */
+.tools-group {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  align-items: center;
+}
+
+.tool-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 6px 18px;
+  color: white;
+  font-weight: 900;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.18);
+  transition: transform 0.1s;
+  opacity: 0.88;
+}
+
+.tool-btn.active {
+  opacity: 1;
+  transform: scale(1.04);
+  border: 2px solid white;
+}
+
+.tool-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.tool-icon {
+  font-size: 22px;
+}
+
+.btn-yellow { background: #f1c40f; box-shadow: 0 4px 0 #d4ac0d; }
+.btn-purple { background: #9b59b6; box-shadow: 0 4px 0 #76448a; }
+.btn-green  { background: #2ecc71; box-shadow: 0 4px 0 #239b56; }
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.character-mascot-footer {
+  font-size: 38px;
+  animation: floatEmoji 3s ease-in-out infinite;
 }
 
 .ref-letters {
@@ -250,12 +282,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.tracing-animation {
-  width: 100%;
-  height: 110px !important; /* Paksa lebih besar */
-  max-width: 250px;
 }
 
 .guide-path {

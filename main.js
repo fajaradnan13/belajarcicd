@@ -1236,143 +1236,34 @@ btnPrev.addEventListener('click', () => {
   }
 });
 
-// --- SISTEM MUSIK ANAK-ANAK & EFEK SUARA (100% FREE COPYRIGHT / PUBLIC DOMAIN) ---
+// --- SISTEM MUSIK ANAK-ANAK (100% FREE COPYRIGHT / PUBLIC DOMAIN) ---
+const bgmAudio = document.getElementById('bgm-audio');
 const btnSound = document.getElementById('btn-sound') || document.querySelector('.sound-btn');
-let audioCtx = null;
-let bgmGainNode = null;
-let isMusicPlaying = false;
-let bgmTimer = null;
+let isAudioExplicitlyMuted = false;
 
-// Frekuensi Not Musik (C Mayor)
-const FREQ = {
-  C3: 130.81, D3: 146.83, E3: 164.81, F3: 174.61, G3: 196.00, A3: 220.00, B3: 246.94,
-  C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
-  C5: 523.25, D5: 587.33, E5: 659.25, G5: 783.99, C6: 1046.50
-};
-
-// Melodi Lagu Abjad / ABC Song (Tradisional - Domain Publik / Bebas Hak Cipta)
-const abcMelody = [
-  // A B C D | E F G -
-  { note: 'C4', dur: 1, bass: 'C3' }, { note: 'C4', dur: 1 }, { note: 'G4', dur: 1 }, { note: 'G4', dur: 1 },
-  { note: 'A4', dur: 1, bass: 'F3' }, { note: 'A4', dur: 1 }, { note: 'G4', dur: 2 },
-  // H I J K | L M N O P -
-  { note: 'F4', dur: 1, bass: 'F3' }, { note: 'F4', dur: 1 }, { note: 'E4', dur: 1 }, { note: 'E4', dur: 1 },
-  { note: 'D4', dur: 1, bass: 'G3' }, { note: 'D4', dur: 1 }, { note: 'C4', dur: 2, bass: 'C3' },
-  // Q R S | T U V -
-  { note: 'G4', dur: 1, bass: 'C3' }, { note: 'G4', dur: 1 }, { note: 'F4', dur: 1 }, { note: 'F4', dur: 1 },
-  { note: 'E4', dur: 1, bass: 'G3' }, { note: 'E4', dur: 1 }, { note: 'D4', dur: 2 },
-  // W X | Y and Z -
-  { note: 'G4', dur: 1, bass: 'C3' }, { note: 'G4', dur: 1 }, { note: 'F4', dur: 1 }, { note: 'F4', dur: 1 },
-  { note: 'E4', dur: 1, bass: 'G3' }, { note: 'E4', dur: 1 }, { note: 'D4', dur: 2 },
-  // Now I know my ABCs -
-  { note: 'C4', dur: 1, bass: 'C3' }, { note: 'C4', dur: 1 }, { note: 'G4', dur: 1 }, { note: 'G4', dur: 1 },
-  { note: 'A4', dur: 1, bass: 'F3' }, { note: 'A4', dur: 1 }, { note: 'G4', dur: 2 },
-  // Next time won't you sing with me -
-  { note: 'F4', dur: 1, bass: 'F3' }, { note: 'F4', dur: 1 }, { note: 'E4', dur: 1 }, { note: 'E4', dur: 1 },
-  { note: 'D4', dur: 1, bass: 'G3' }, { note: 'D4', dur: 1 }, { note: 'C4', dur: 2, bass: 'C3' }
-];
-
-function initAudioContext() {
-  if (!audioCtx) {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AudioContextClass();
-    bgmGainNode = audioCtx.createGain();
-    bgmGainNode.gain.setValueAtTime(0.18, audioCtx.currentTime); // Volume lembut & ramah anak
-    bgmGainNode.connect(audioCtx.destination);
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
+function startBgm() {
+  if (!bgmAudio) return;
+  bgmAudio.volume = 0.55; // Volume jernih dan ramah anak
+  const playPromise = bgmAudio.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      isAudioExplicitlyMuted = false;
+      if (btnSound) {
+        btnSound.textContent = '🔊';
+        btnSound.classList.add('playing');
+        btnSound.classList.remove('muted');
+        btnSound.title = "Musik Aktif (Klik untuk Matikan)";
+      }
+    }).catch((e) => {
+      console.log("Autoplay dicegah browser, menunggu interaksi pengguna:", e);
+    });
   }
 }
 
-// Instrumen Marimba / Kotak Musik Anak
-function playInstrumentNote(freq, time, duration, isBass = false) {
-  if (!audioCtx || !isMusicPlaying) return;
-  
-  const osc = audioCtx.createOscillator();
-  const oscHarmonic = audioCtx.createOscillator();
-  const noteGain = audioCtx.createGain();
-  const filter = audioCtx.createBiquadFilter();
-
-  osc.type = isBass ? 'triangle' : 'sine';
-  oscHarmonic.type = 'triangle';
-  osc.frequency.setValueAtTime(freq, time);
-  oscHarmonic.frequency.setValueAtTime(freq * 2, time);
-
-  // Filter low-pass agar suara hangat dan ramah di telinga anak
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(isBass ? 350 : 2000, time);
-
-  const maxVol = isBass ? 0.09 : 0.13;
-  noteGain.gain.setValueAtTime(0.0001, time);
-  noteGain.gain.linearRampToValueAtTime(maxVol, time + 0.015);
-  noteGain.gain.exponentialRampToValueAtTime(0.0001, time + duration * 0.9);
-
-  osc.connect(filter);
-  if (!isBass) {
-    const harmGain = audioCtx.createGain();
-    harmGain.gain.setValueAtTime(0.025, time);
-    harmGain.gain.exponentialRampToValueAtTime(0.0001, time + duration * 0.4);
-    oscHarmonic.connect(harmGain);
-    harmGain.connect(filter);
-    oscHarmonic.start(time);
-    oscHarmonic.stop(time + duration);
-  }
-
-  filter.connect(noteGain);
-  noteGain.connect(bgmGainNode);
-
-  osc.start(time);
-  osc.stop(time + duration);
-}
-
-// Penjadwalan Looping Musik
-function scheduleMusicLoop() {
-  if (!isMusicPlaying || !audioCtx) return;
-
-  const beatSec = 0.52; // Tempo ceria & santai (~115 BPM)
-  let currentTime = audioCtx.currentTime + 0.05;
-
-  abcMelody.forEach(item => {
-    const durSec = item.dur * beatSec;
-    if (item.note && FREQ[item.note]) {
-      playInstrumentNote(FREQ[item.note], currentTime, durSec);
-    }
-    if (item.bass && FREQ[item.bass]) {
-      playInstrumentNote(FREQ[item.bass], currentTime, durSec * 1.5, true);
-    }
-    currentTime += durSec;
-  });
-
-  const totalLoopDuration = (currentTime - audioCtx.currentTime) * 1000;
-  bgmTimer = setTimeout(() => {
-    if (isMusicPlaying) scheduleMusicLoop();
-  }, Math.max(100, totalLoopDuration - 200));
-}
-
-function startMusic() {
-  initAudioContext();
-  isMusicPlaying = true;
-  if (bgmGainNode) {
-    bgmGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-    bgmGainNode.gain.setValueAtTime(0.18, audioCtx.currentTime);
-  }
-  scheduleMusicLoop();
-  if (btnSound) {
-    btnSound.textContent = '🔊';
-    btnSound.classList.add('playing');
-    btnSound.classList.remove('muted');
-    btnSound.title = "Musik Aktif (Klik untuk Matikan)";
-  }
-}
-
-function stopMusic() {
-  isMusicPlaying = false;
-  if (bgmTimer) clearTimeout(bgmTimer);
-  if (bgmGainNode && audioCtx) {
-    bgmGainNode.gain.setValueAtTime(bgmGainNode.gain.value, audioCtx.currentTime);
-    bgmGainNode.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
-  }
+function pauseBgm() {
+  if (!bgmAudio) return;
+  bgmAudio.pause();
+  isAudioExplicitlyMuted = true;
   if (btnSound) {
     btnSound.textContent = '🔇';
     btnSound.classList.remove('playing');
@@ -1381,11 +1272,12 @@ function stopMusic() {
   }
 }
 
-function toggleMusic() {
-  if (isMusicPlaying) {
-    stopMusic();
+function toggleBgm() {
+  if (!bgmAudio) return;
+  if (bgmAudio.paused) {
+    startBgm();
   } else {
-    startMusic();
+    pauseBgm();
   }
 }
 
@@ -1393,28 +1285,51 @@ if (btnSound) {
   btnSound.textContent = '🔇';
   btnSound.classList.add('muted');
   btnSound.title = "Klik untuk Menyalakan Musik Anak";
-  btnSound.addEventListener('click', toggleMusic);
+  btnSound.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleBgm();
+  });
 }
 
+// Mulai musik otomatis begitu anak menyentuh kanvas atau menekan tombol apapun di halaman
+function handleFirstInteraction() {
+  if (!isAudioExplicitlyMuted && bgmAudio && bgmAudio.paused) {
+    startBgm();
+  }
+  window.removeEventListener('pointerdown', handleFirstInteraction);
+  window.removeEventListener('keydown', handleFirstInteraction);
+}
+
+window.addEventListener('pointerdown', handleFirstInteraction, { once: true });
+window.addEventListener('keydown', handleFirstInteraction, { once: true });
+
 // Efek Suara Ceria saat Anak Menyelesaikan Huruf
+let chimeCtx = null;
 function playSuccessChime() {
-  if (!audioCtx || audioCtx.state === 'suspended' || !isMusicPlaying) return;
-  const now = audioCtx.currentTime;
-  const chimeNotes = [FREQ.C5, FREQ.E5, FREQ.G5, FREQ.C6];
-  chimeNotes.forEach((freq, idx) => {
-    const t = now + idx * 0.12;
-    const osc = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, t);
-    g.gain.setValueAtTime(0.001, t);
-    g.gain.linearRampToValueAtTime(0.14, t + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
-    osc.connect(g);
-    g.connect(audioCtx.destination);
-    osc.start(t);
-    osc.stop(t + 0.4);
-  });
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!chimeCtx) chimeCtx = new AudioContextClass();
+    if (chimeCtx.state === 'suspended') chimeCtx.resume();
+
+    const now = chimeCtx.currentTime;
+    const chimeNotes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    chimeNotes.forEach((freq, idx) => {
+      const t = now + idx * 0.12;
+      const osc = chimeCtx.createOscillator();
+      const g = chimeCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(0.001, t);
+      g.gain.linearRampToValueAtTime(0.2, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+      osc.connect(g);
+      g.connect(chimeCtx.destination);
+      osc.start(t);
+      osc.stop(t + 0.4);
+    });
+  } catch (err) {
+    console.error("Audio error:", err);
+  }
 }
 
 // Start App
