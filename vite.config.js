@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  // Tentukan base path sesuai dengan nama repositori GitHub
-  base: '/belajarcicd/'
+  // Gunakan relative path agar kompatibel dengan subpath maupun custom domain
+  base: './'
 })
