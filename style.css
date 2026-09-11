@@ -109,6 +109,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.sound-btn.playing {
+  background: #2ecc71;
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
+  animation: pulseSound 1.8s infinite;
+}
+
+.sound-btn.muted {
+  background: #95a5a6;
+  opacity: 0.85;
+  box-shadow: 0 4px 0 #7f8c8d;
+}
+
+@keyframes pulseSound {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 .btn-blue {
   background: #3498db;

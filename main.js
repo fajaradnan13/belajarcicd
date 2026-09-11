@@ -118,17 +118,23 @@ function generateLetterCc(offsetX, offsetY, scale) {
 function generateLetterDd(offsetX, offsetY, scale) {
   pathPoints.push({ x: offsetX + 40*scale, y: offsetY + 40*scale, hit: false });
   ctx.beginPath();
-  const dX = 30 * scale;
+  // D besar
+  const dX = 25 * scale;
   ctx.moveTo(offsetX + dX, offsetY + 10*scale);
   ctx.lineTo(offsetX + dX, offsetY + 90*scale);
   ctx.moveTo(offsetX + dX, offsetY + 10*scale);
-  ctx.bezierCurveTo(offsetX + 80*scale, offsetY + 10*scale, offsetX + 80*scale, offsetY + 90*scale, offsetX + dX, offsetY + 90*scale);
+  ctx.bezierCurveTo(offsetX + 70*scale, offsetY + 10*scale, offsetX + 70*scale, offsetY + 90*scale, offsetX + dX, offsetY + 90*scale);
 
-  const ldX = 100 * scale;
+  // d kecil (tiang di kanan, perut melengkung penuh di kiri pas antara garis tengah dan bawah)
+  const ldX = 115 * scale;
   ctx.moveTo(offsetX + ldX, offsetY + 10*scale);
   ctx.lineTo(offsetX + ldX, offsetY + 90*scale);
-  ctx.moveTo(offsetX + ldX - 30*scale, offsetY + 70*scale);
-  ctx.arc(offsetX + ldX - 15*scale, offsetY + 70*scale, 15*scale, 0, Math.PI * 2);
+
+  const dRadius = 20 * scale;
+  const dCenterX = offsetX + ldX - dRadius;
+  const dCenterY = offsetY + 70 * scale;
+  ctx.moveTo(dCenterX + dRadius, dCenterY);
+  ctx.arc(dCenterX, dCenterY, dRadius, 0, Math.PI * 2);
 
   ctx.lineWidth = 4 * scale;
   ctx.strokeStyle = '#bdc3c7';
@@ -410,11 +416,21 @@ function generateLetterNn(offsetX, offsetY, scale) {
 }
 
 function generateLetterOo(offsetX, offsetY, scale) {
-  pathPoints.push({ x: offsetX + 50*scale, y: offsetY + 50*scale, hit: false });
+  pathPoints.push({ x: offsetX + 40*scale, y: offsetY + 50*scale, hit: false });
   ctx.beginPath();
-  ctx.arc(offsetX + 50*scale, offsetY + 50*scale, 40*scale, 0, Math.PI * 2);
-  ctx.moveTo(offsetX + 130*scale, offsetY + 70*scale);
-  ctx.arc(offsetX + 110*scale, offsetY + 70*scale, 20*scale, 0, Math.PI * 2);
+  // O besar
+  const oX = 40 * scale;
+  const oY = 50 * scale;
+  const oR = 34 * scale;
+  ctx.arc(offsetX + oX, offsetY + oY, oR, 0, Math.PI * 2);
+
+  // o kecil (ada jeda yang jelas dan proporsional dengan O besar)
+  const loX = 112 * scale;
+  const loY = 70 * scale;
+  const loR = 18 * scale;
+  ctx.moveTo(offsetX + loX + loR, offsetY + loY);
+  ctx.arc(offsetX + loX, offsetY + loY, loR, 0, Math.PI * 2);
+
   ctx.lineWidth = 4 * scale;
   ctx.strokeStyle = '#bdc3c7';
   ctx.lineCap = 'round';
@@ -449,18 +465,27 @@ function generateLetterPp(offsetX, offsetY, scale) {
 }
 
 function generateLetterQq(offsetX, offsetY, scale) {
-  pathPoints.push({ x: offsetX + 50*scale, y: offsetY + 50*scale, hit: false });
+  pathPoints.push({ x: offsetX + 40*scale, y: offsetY + 50*scale, hit: false });
   ctx.beginPath();
-  ctx.arc(offsetX + 50*scale, offsetY + 50*scale, 40*scale, 0, Math.PI * 2);
-  ctx.moveTo(offsetX + 60*scale, offsetY + 70*scale);
-  ctx.lineTo(offsetX + 80*scale, offsetY + 90*scale);
+  // Q besar
+  const qX = 40 * scale;
+  const qY = 50 * scale;
+  const qR = 34 * scale;
+  ctx.arc(offsetX + qX, offsetY + qY, qR, 0, Math.PI * 2);
+  // Ekor Q besar
+  ctx.moveTo(offsetX + 48*scale, offsetY + 62*scale);
+  ctx.lineTo(offsetX + 68*scale, offsetY + 88*scale);
 
-  const lqX = 115 * scale;
+  // q kecil (tiang di kanan, ekor kait kecil, perut di kiri ada jeda rapi dengan Q besar)
+  const lqX = 122 * scale;
+  const lqR = 18 * scale;
+  // Tiang q kecil
   ctx.moveTo(offsetX + lqX, offsetY + 50*scale);
   ctx.lineTo(offsetX + lqX, offsetY + 115*scale);
-  ctx.lineTo(offsetX + 125*scale, offsetY + 105*scale);
-  ctx.moveTo(offsetX + 115*scale, offsetY + 70*scale);
-  ctx.arc(offsetX + 95*scale, offsetY + 70*scale, 20*scale, 0, Math.PI * 2);
+  ctx.lineTo(offsetX + 130*scale, offsetY + 105*scale);
+  // Perut q kecil di sebelah kiri tiang
+  ctx.moveTo(offsetX + lqX, offsetY + 70*scale);
+  ctx.arc(offsetX + (lqX - lqR), offsetY + 70*scale, lqR, 0, Math.PI * 2);
 
   ctx.lineWidth = 4 * scale;
   ctx.strokeStyle = '#bdc3c7';
@@ -728,10 +753,10 @@ const letterDatabase = [
     drawFunction: generateLetterDd,
     svgContent: `
       <svg class="tracing-animation" viewBox="0 0 150 100" width="100%" height="80px">
-        <path class="guide-path" d="M 30 10 L 30 90 M 30 10 C 80 10 80 90 30 90" />
-        <path class="guide-path" d="M 100 10 L 100 90 M 100 50 A 20 20 0 1 0 100 90" />
-        <path class="trace-path" d="M 30 10 L 30 90 M 30 10 C 80 10 80 90 30 90" />
-        <path class="trace-path-small" d="M 100 10 L 100 90 M 100 50 A 20 20 0 1 0 100 90" />
+        <path class="guide-path" d="M 25 10 L 25 90 M 25 10 C 70 10 70 90 25 90" />
+        <path class="guide-path" d="M 115 10 L 115 90 M 115 50 A 20 20 0 1 0 115 90" />
+        <path class="trace-path" d="M 25 10 L 25 90 M 25 10 C 70 10 70 90 25 90" />
+        <path class="trace-path-small" d="M 115 10 L 115 90 M 115 50 A 20 20 0 1 0 115 90" />
       </svg>
     `
   },
@@ -882,10 +907,10 @@ const letterDatabase = [
     drawFunction: generateLetterOo,
     svgContent: `
       <svg class="tracing-animation" viewBox="0 0 150 100" width="100%" height="80px">
-        <path class="guide-path" d="M 50 10 A 40 40 0 1 0 50.1 10" />
-        <path class="guide-path" d="M 110 50 A 20 20 0 1 0 110.1 50" />
-        <path class="trace-path" d="M 50 10 A 40 40 0 1 0 50.1 10" />
-        <path class="trace-path-small" d="M 110 50 A 20 20 0 1 0 110.1 50" />
+        <path class="guide-path" d="M 40 16 A 34 34 0 1 0 40.1 16" />
+        <path class="guide-path" d="M 112 52 A 18 18 0 1 0 112.1 52" />
+        <path class="trace-path" d="M 40 16 A 34 34 0 1 0 40.1 16" />
+        <path class="trace-path-small" d="M 112 52 A 18 18 0 1 0 112.1 52" />
       </svg>
     `
   },
@@ -910,10 +935,10 @@ const letterDatabase = [
     drawFunction: generateLetterQq,
     svgContent: `
       <svg class="tracing-animation" viewBox="0 0 150 120" width="100%" height="80px">
-        <path class="guide-path" d="M 50 10 A 40 40 0 1 0 50.1 10 M 60 70 L 80 90" />
-        <path class="guide-path" d="M 95 50 A 20 20 0 1 0 95.1 50 M 115 50 L 115 115 L 125 105" />
-        <path class="trace-path" d="M 50 10 A 40 40 0 1 0 50.1 10 M 60 70 L 80 90" />
-        <path class="trace-path-small" d="M 95 50 A 20 20 0 1 0 95.1 50 M 115 50 L 115 115 L 125 105" />
+        <path class="guide-path" d="M 40 16 A 34 34 0 1 0 40.1 16 M 48 62 L 68 88" />
+        <path class="guide-path" d="M 122 70 A 18 18 0 1 0 122.1 70 M 122 50 L 122 115 L 130 105" />
+        <path class="trace-path" d="M 40 16 A 34 34 0 1 0 40.1 16 M 48 62 L 68 88" />
+        <path class="trace-path-small" d="M 122 70 A 18 18 0 1 0 122.1 70 M 122 50 L 122 115 L 130 105" />
       </svg>
     `
   },
@@ -1064,9 +1089,12 @@ function updateUI() {
   initCanvas();
 }
 
+let hasCelebrated = false;
+
 function initCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   pathPoints = [];
+  hasCelebrated = false;
 
   const currentData = letterDatabase[currentIndex];
   const scale = 1.2;
@@ -1151,14 +1179,16 @@ function validatePoint(x, y) {
 }
 
 function checkCompletion() {
-  if(pathPoints.length === 0) return;
+  if (pathPoints.length === 0 || hasCelebrated) return;
   const total = pathPoints.length;
   const hit = pathPoints.filter(p => p.hit).length;
   const percentage = (hit / total) * 100;
 
   if (percentage > 50) { 
-    feedbackMsg.textContent = "Wah hebat! Kamu berhasil!";
-    feedbackMsg.style.color = "#3498db";
+    hasCelebrated = true;
+    feedbackMsg.textContent = "Wah hebat! Kamu berhasil! 🎉";
+    feedbackMsg.style.color = "#27ae60";
+    playSuccessChime();
   }
 }
 
@@ -1206,9 +1236,191 @@ btnPrev.addEventListener('click', () => {
   }
 });
 
+// --- SISTEM MUSIK ANAK-ANAK & EFEK SUARA (100% FREE COPYRIGHT / PUBLIC DOMAIN) ---
+const btnSound = document.getElementById('btn-sound') || document.querySelector('.sound-btn');
+let audioCtx = null;
+let bgmGainNode = null;
+let isMusicPlaying = false;
+let bgmTimer = null;
+
+// Frekuensi Not Musik (C Mayor)
+const FREQ = {
+  C3: 130.81, D3: 146.83, E3: 164.81, F3: 174.61, G3: 196.00, A3: 220.00, B3: 246.94,
+  C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
+  C5: 523.25, D5: 587.33, E5: 659.25, G5: 783.99, C6: 1046.50
+};
+
+// Melodi Lagu Abjad / ABC Song (Tradisional - Domain Publik / Bebas Hak Cipta)
+const abcMelody = [
+  // A B C D | E F G -
+  { note: 'C4', dur: 1, bass: 'C3' }, { note: 'C4', dur: 1 }, { note: 'G4', dur: 1 }, { note: 'G4', dur: 1 },
+  { note: 'A4', dur: 1, bass: 'F3' }, { note: 'A4', dur: 1 }, { note: 'G4', dur: 2 },
+  // H I J K | L M N O P -
+  { note: 'F4', dur: 1, bass: 'F3' }, { note: 'F4', dur: 1 }, { note: 'E4', dur: 1 }, { note: 'E4', dur: 1 },
+  { note: 'D4', dur: 1, bass: 'G3' }, { note: 'D4', dur: 1 }, { note: 'C4', dur: 2, bass: 'C3' },
+  // Q R S | T U V -
+  { note: 'G4', dur: 1, bass: 'C3' }, { note: 'G4', dur: 1 }, { note: 'F4', dur: 1 }, { note: 'F4', dur: 1 },
+  { note: 'E4', dur: 1, bass: 'G3' }, { note: 'E4', dur: 1 }, { note: 'D4', dur: 2 },
+  // W X | Y and Z -
+  { note: 'G4', dur: 1, bass: 'C3' }, { note: 'G4', dur: 1 }, { note: 'F4', dur: 1 }, { note: 'F4', dur: 1 },
+  { note: 'E4', dur: 1, bass: 'G3' }, { note: 'E4', dur: 1 }, { note: 'D4', dur: 2 },
+  // Now I know my ABCs -
+  { note: 'C4', dur: 1, bass: 'C3' }, { note: 'C4', dur: 1 }, { note: 'G4', dur: 1 }, { note: 'G4', dur: 1 },
+  { note: 'A4', dur: 1, bass: 'F3' }, { note: 'A4', dur: 1 }, { note: 'G4', dur: 2 },
+  // Next time won't you sing with me -
+  { note: 'F4', dur: 1, bass: 'F3' }, { note: 'F4', dur: 1 }, { note: 'E4', dur: 1 }, { note: 'E4', dur: 1 },
+  { note: 'D4', dur: 1, bass: 'G3' }, { note: 'D4', dur: 1 }, { note: 'C4', dur: 2, bass: 'C3' }
+];
+
+function initAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContextClass();
+    bgmGainNode = audioCtx.createGain();
+    bgmGainNode.gain.setValueAtTime(0.18, audioCtx.currentTime); // Volume lembut & ramah anak
+    bgmGainNode.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+// Instrumen Marimba / Kotak Musik Anak
+function playInstrumentNote(freq, time, duration, isBass = false) {
+  if (!audioCtx || !isMusicPlaying) return;
+  
+  const osc = audioCtx.createOscillator();
+  const oscHarmonic = audioCtx.createOscillator();
+  const noteGain = audioCtx.createGain();
+  const filter = audioCtx.createBiquadFilter();
+
+  osc.type = isBass ? 'triangle' : 'sine';
+  oscHarmonic.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, time);
+  oscHarmonic.frequency.setValueAtTime(freq * 2, time);
+
+  // Filter low-pass agar suara hangat dan ramah di telinga anak
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(isBass ? 350 : 2000, time);
+
+  const maxVol = isBass ? 0.09 : 0.13;
+  noteGain.gain.setValueAtTime(0.0001, time);
+  noteGain.gain.linearRampToValueAtTime(maxVol, time + 0.015);
+  noteGain.gain.exponentialRampToValueAtTime(0.0001, time + duration * 0.9);
+
+  osc.connect(filter);
+  if (!isBass) {
+    const harmGain = audioCtx.createGain();
+    harmGain.gain.setValueAtTime(0.025, time);
+    harmGain.gain.exponentialRampToValueAtTime(0.0001, time + duration * 0.4);
+    oscHarmonic.connect(harmGain);
+    harmGain.connect(filter);
+    oscHarmonic.start(time);
+    oscHarmonic.stop(time + duration);
+  }
+
+  filter.connect(noteGain);
+  noteGain.connect(bgmGainNode);
+
+  osc.start(time);
+  osc.stop(time + duration);
+}
+
+// Penjadwalan Looping Musik
+function scheduleMusicLoop() {
+  if (!isMusicPlaying || !audioCtx) return;
+
+  const beatSec = 0.52; // Tempo ceria & santai (~115 BPM)
+  let currentTime = audioCtx.currentTime + 0.05;
+
+  abcMelody.forEach(item => {
+    const durSec = item.dur * beatSec;
+    if (item.note && FREQ[item.note]) {
+      playInstrumentNote(FREQ[item.note], currentTime, durSec);
+    }
+    if (item.bass && FREQ[item.bass]) {
+      playInstrumentNote(FREQ[item.bass], currentTime, durSec * 1.5, true);
+    }
+    currentTime += durSec;
+  });
+
+  const totalLoopDuration = (currentTime - audioCtx.currentTime) * 1000;
+  bgmTimer = setTimeout(() => {
+    if (isMusicPlaying) scheduleMusicLoop();
+  }, Math.max(100, totalLoopDuration - 200));
+}
+
+function startMusic() {
+  initAudioContext();
+  isMusicPlaying = true;
+  if (bgmGainNode) {
+    bgmGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+    bgmGainNode.gain.setValueAtTime(0.18, audioCtx.currentTime);
+  }
+  scheduleMusicLoop();
+  if (btnSound) {
+    btnSound.textContent = '🔊';
+    btnSound.classList.add('playing');
+    btnSound.classList.remove('muted');
+    btnSound.title = "Musik Aktif (Klik untuk Matikan)";
+  }
+}
+
+function stopMusic() {
+  isMusicPlaying = false;
+  if (bgmTimer) clearTimeout(bgmTimer);
+  if (bgmGainNode && audioCtx) {
+    bgmGainNode.gain.setValueAtTime(bgmGainNode.gain.value, audioCtx.currentTime);
+    bgmGainNode.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
+  }
+  if (btnSound) {
+    btnSound.textContent = '🔇';
+    btnSound.classList.remove('playing');
+    btnSound.classList.add('muted');
+    btnSound.title = "Musik Mati (Klik untuk Nyalakan)";
+  }
+}
+
+function toggleMusic() {
+  if (isMusicPlaying) {
+    stopMusic();
+  } else {
+    startMusic();
+  }
+}
+
+if (btnSound) {
+  btnSound.textContent = '🔇';
+  btnSound.classList.add('muted');
+  btnSound.title = "Klik untuk Menyalakan Musik Anak";
+  btnSound.addEventListener('click', toggleMusic);
+}
+
+// Efek Suara Ceria saat Anak Menyelesaikan Huruf
+function playSuccessChime() {
+  if (!audioCtx || audioCtx.state === 'suspended' || !isMusicPlaying) return;
+  const now = audioCtx.currentTime;
+  const chimeNotes = [FREQ.C5, FREQ.E5, FREQ.G5, FREQ.C6];
+  chimeNotes.forEach((freq, idx) => {
+    const t = now + idx * 0.12;
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0.001, t);
+    g.gain.linearRampToValueAtTime(0.14, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+    osc.connect(g);
+    g.connect(audioCtx.destination);
+    osc.start(t);
+    osc.stop(t + 0.4);
+  });
+}
+
 // Start App
 setTimeout(() => {
   canvas.width = canvas.parentElement.clientWidth;
   canvas.height = canvas.parentElement.clientHeight;
   updateUI();
 }, 100);
+
